@@ -1,11 +1,11 @@
 # MoodswingsFan 🎯
 
 ### Basic Details
-**Team Name:** [Team Name]
+**Team Name:** [Robot]
 
 ### Team Members
-- **Team Lead:** Navaneeth Krishna R - [College Name]
-- **Member 2:** [Name] - [College Name]
+- **Team Lead:** Navaneeth Krishna R - [lourdes matha science and technology]
+- **Member 2:** [Kashinath] - [lourdes matha science and technology]
 - **Member 3:** [Name] - [College Name]
 
 ### Project Description
