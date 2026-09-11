@@ -34,7 +34,7 @@ Write-Host "[+] Target: $repoUrl" -ForegroundColor Green
 Write-Host "`n[3/3] Pushing main branch to GitHub..." -ForegroundColor Yellow
 Write-Host "(*) If prompted by Git Credential Manager, click 'Sign in with your browser' to authorize." -ForegroundColor Cyan
 
-git push -u origin main
+git push -u origin main --force
 
 if ($LASTEXITCODE -eq 0) {
     Write-Host "`n========================================================" -ForegroundColor Green
