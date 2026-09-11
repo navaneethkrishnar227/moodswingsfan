@@ -1,134 +1,154 @@
-# 🧠 MoodswingsFan – Real-Time Facial Emotion Detection & Smart Climate AI
+# MoodswingsFan 🎯
 
-> **A Next-Generation Facial Expression Analysis, Smart Climate Fan Controller & Mental Wellbeing Assistant**  
-> GitHub Repository: [https://github.com/navaneethkrishnar227/moodswingsfan](https://github.com/navaneethkrishnar227/moodswingsfan)  
-> Built for Hackathon Excellence with OpenCV, DeepFace, and Streamlit.
+### Basic Details
+**Team Name:** [Team Name]
 
----
+### Team Members
+- **Team Lead:** Navaneeth Krishna R - [College Name]
+- **Member 2:** [Name] - [College Name]
+- **Member 3:** [Name] - [College Name]
 
-## 📌 Executive Summary
+### Project Description
+MoodswingsFan is an intelligent, real-time facial emotion detection and smart climate control system. Powered by computer vision and deep learning, it analyzes visible facial expressions via webcam and dynamically modulates room ventilation fan speeds—rewarding genuine smiles with maximum hurricane-grade cooling (Speed 5 / 1800 RPM) and immediately stopping all airflow (Speed 0 / 0 RPM) whenever anger or frustration is detected.
 
-**MoodswingsFan** is a real-time, privacy-first computer vision system that captures facial expressions via webcam or media uploads, accurately classifies visible emotions across 7 universal categories (*Happy, Sad, Angry, Surprise, Fear, Disgust, Neutral*), dynamically regulates smart ventilation fan speeds based on detected mood (Happy = Speed 5, Angry = Speed 0), provides contextual mindfulness suggestions, synthesizes mood-adaptive ambient music, and offers voice feedback for accessibility.
+### The Problem (that doesn't exist)
+In the modern world, humans are forced to endure the agonizing, prehistoric ordeal of manually reaching out their arms to twist mechanical fan knobs or press remote buttons. Why should your fan remain indifferently blowing a monotonous breeze while you are screaming at your computer screen in rage? Clearly, when someone is fuming with fury, the room should plunge into suffocating dead silence so they can properly marinate in their bad temper without comforting ventilation!
 
-Designed strictly under **Responsible-AI and Privacy Principles**, FaceSense features zero biometric storage, active privacy consent screens, and automatic facial blurring.
-
----
-
-## 🏆 Hackathon Requirements & Bonus Features Checklist
-
-| # | Feature Description | Status | Implementation Details |
-|---|---|---|---|
-| **Core 1** | Capture live video from webcam | ✅ Complete | OpenCV webcam capture with mirror mode & Streamlit camera input |
-| **Core 2** | Detect one or more faces | ✅ Complete | Multi-face detection supporting multiple subjects simultaneously |
-| **Core 3** | Draw bounding boxes around faces | ✅ Complete | Futuristic glowing corner bounding boxes with confidence meters |
-| **Core 4** | Classify 7 standard emotions | ✅ Complete | `Angry`, `Disgust`, `Fear`, `Happy`, `Sad`, `Surprise`, `Neutral` |
-| **Core 5** | Display emotion & confidence % | ✅ Complete | High-contrast neon emotion badges with live confidence percentage |
-| **Core 6** | Stop when user presses 'Q' | ✅ Complete | Clean shutdown with summary report printed to console and disk |
-| **Core 7** | Avoid saving or identifying faces | ✅ Complete | Zero face storage, zero biometric embeddings, purely anonymous aggregate logs |
-| **Bonus 1** | Live emotion history graph | ✅ Complete | Real-time timeline overlay in desktop app + Plotly interactive chart in web app |
-| **Bonus 2** | Emotion count tally | ✅ Complete | Live frequency counters and percentage distribution HUD |
-| **Bonus 3** | Mood-based music playback | ✅ Complete | Offline procedural harmonic ambient soundscapes synthesized per emotion |
-| **Bonus 4** | Wellbeing suggestions | ✅ Complete | Evidence-based mindfulness tips, breathing exercises & posture guidance |
-| **Bonus 5** | Consent screen | ✅ Complete | Explicit privacy agreement gatekeeper required prior to camera activation |
-| **Bonus 6** | Automatic unconsented face blur | ✅ Complete | Gaussian blur privacy shield for unconsented subjects |
-| **Bonus 7** | Streamlit web interface | ✅ Complete | Full glassmorphic dark-mode dashboard (`web_app.py`) |
-| **Bonus 8** | Anonymous emotion statistics | ✅ Complete | Local non-identifiable telemetry with 1-click JSON and CSV export |
-| **Bonus 9** | Uploaded images & recorded videos | ✅ Complete | Dedicated modes for analyzing multi-face images & video clip progressions |
-| **Bonus 10**| Voice feedback for accessibility | ✅ Complete | Spoken audio cues for visually impaired users (`pyttsx3` + Web Speech API) |
-| **Special 11**| **Smart Fan Speed Progress Bar** | ✅ Complete | Moodswings dynamic environmental ventilation & fan RPM controller |
-| **Special 12**| **Smile Calibration Ensemble** | ✅ Complete | OpenCV smile cascade integration to prevent false angry classifications |
+### The Solution (that nobody asked for)
+MoodswingsFan completely eliminates manual temperature control by turning your facial expressions into an aerodynamic thermal regulator! Smile with pure joy, and the AI rewards your positivity with a refreshing Level 5 hurricane gale. Frown, glare, or scowl, and the system instantly kills the motor down to Speed 0 to teach you emotional discipline. Equipped with multi-face detection, privacy blurring shields, procedural harmonic ambient audio, and evidence-based 4-7-8 breathing pacers, it's the climate assistant that nobody requested but everyone's emotional stability desperately needs.
 
 ---
 
-## 🏛️ System Architecture
+## Technical Details
 
-```
-moodswings/
-│
-├── app.py                      # Real-Time Desktop OpenCV Application (Fast, Asynchronous)
-├── web_app.py                  # Modern Streamlit Web Application (Full Dashboard)
-├── requirements.txt            # Locked dependencies
-├── README.md                   # Project documentation & presentation guide
-│
-├── modules/
-│   ├── detector.py             # DeepFace emotion classifier with async thread worker
-│   ├── privacy.py              # Consent gatekeeper, auto-blurring, anonymous stats logger
-│   ├── wellbeing.py            # Evidence-based mental wellness and mindfulness suggestions
-│   ├── sound_engine.py         # Procedural harmonic ambient music generator & player
-│   ├── speech_engine.py        # Accessible voice feedback engine (pyttsx3)
-│   └── visualizer.py           # Futuristic HUD, neon emotion badges, and live graph overlay
-│
-├── assets/
-│   ├── audio/                  # Offline synthesized harmonic mood soundscapes (.wav)
-│   └── samples/                # High-res sample images for immediate offline demos
-│
-└── data/
-    └── anonymous_stats.json    # Privacy-compliant anonymous emotion telemetry
-```
+### Technologies/Components Used
+
+#### For Software:
+- **Languages used:** Python 3.11
+- **Frameworks used:** Streamlit (Glassmorphic Web Dashboard), OpenCV (High-FPS Real-Time Computer Vision Engine)
+- **Libraries used:** DeepFace (Emotion Classification Model), TensorFlow / Keras, NumPy, Pillow, Plotly (Interactive Emotion Telemetry Radar & Timelines), pyttsx3 (Accessible Voice Feedback), Wave & Pygame (Procedural Harmonic Mood Soundscapes)
+- **Tools used:** Git, GitHub, PowerShell, Visual Studio Code
+
+#### For Hardware:
+- **List main components:**
+  - Microcontroller: ESP32 Dev Module / Arduino Uno
+  - Cooling Fan: 12V 4-Wire PWM DC High-Speed Brushless Fan
+  - Motor Driver: IRF520 MOSFET Driver Module / Optocoupler Transistor Switch
+  - Power Supply: 12V 2A DC External Wall Adapter
+- **List specifications:**
+  - Input Operating Voltage: 12V DC
+  - PWM Frequency: 25 kHz target frequency for whisper-quiet motor commutation
+  - Fan Speed Range: 0 to 1800 RPM across 6 discrete stages (Levels 0 to 5)
+  - Communication Protocol: USB-UART Serial (115200 baud)
+- **List tools required:**
+  - Solderless breadboard
+  - Dupont male-to-female jumper wires
+  - USB Type-A to Micro-USB / Type-C programming cable
+  - Digital multimeter
 
 ---
 
-## 🚀 Quickstart Guide
+## Implementation
 
-### Prerequisites
-- Python 3.10 or Python 3.11 (Python 3.11.9 configured in `venv`)
+### For Software:
 
-### 1. Environment Setup
+#### Installation
 ```powershell
-# Activate virtual environment
-# Windows:
+# 1. Clone the repository
+git clone https://github.com/navaneethkrishnar227/moodswingsfan.git
+cd moodswingsfan
+
+# 2. Create and activate virtual environment
+python -m venv venv
 .\venv\Scripts\activate
 
-# Linux/macOS:
-# source venv/bin/activate
-
-# Dependencies are pre-installed, or run:
+# 3. Install required dependencies
 pip install -r requirements.txt
 ```
 
-### 2. Run the Real-Time Desktop Application (`app.py`)
+#### Run
 ```powershell
+# Option A: Run the Glassmorphic Streamlit Web Dashboard
+streamlit run web_app.py
+
+# Option B: Run the Real-Time Desktop OpenCV Engine with Keyboard Shortcuts
 python app.py
 ```
-**Interactive Desktop Hotkeys:**
-- `Y` or `ENTER`: Grant privacy consent and start detection
-- `C`: Show / Hide Privacy & Consent Screen
-- `B`: Toggle Automatic Facial Privacy Blur (Privacy Shield)
-- `G`: Toggle Live Emotion History Graph overlay
-- `S`: Toggle Emotion Frequency Counters HUD
-- `M`: Toggle Mood-Adaptive Music
-- `V`: Toggle Spoken Voice Feedback (Accessibility)
-- `W`: Toggle Wellbeing Advice Banner
-- `Q`: Clean quit and export anonymous session statistics
 
-### 3. Run the Streamlit Web Dashboard (`web_app.py`)
-```powershell
-streamlit run web_app.py
+---
+
+## Project Documentation
+
+### For Software:
+
+#### Screenshots
+![Screenshot1](assets/samples/annotated_happy.jpg)  
+*Screenshot 1: Real-Time Facial Emotion Detection with Glowing Neon Bounding Boxes, Smile Calibration, and Confidence Metric.*
+
+![Screenshot2](assets/samples/happy_portrait.jpg)  
+*Screenshot 2: High-Resolution Single Portrait Facial Analysis with Real-Time Emotion Probability Distribution.*
+
+![Screenshot3](assets/samples/friends_group.jpg)  
+*Screenshot 3: Multi-Face Detection & Tracing for Group Emotion Aggregation and Analytics.*
+
+#### Diagrams
+![Workflow](https://raw.githubusercontent.com/navaneethkrishnar227/moodswingsfan/main/assets/samples/annotated_happy.jpg)  
+*Workflow Diagram: Real-Time Facial Capture ➔ Single-Face Noise Filter ➔ Smile Calibration Ensemble ➔ 5.0s Periodic DeepFace Classification ➔ Smart Climate Fan Controller (Happy = Level 5 / 1800 RPM, Angry = Level 0 / 0 RPM) ➔ Procedural Mood Soundscapes.*
+
+```mermaid
+graph TD
+    A[Webcam / Media Stream] --> B[Face Detector & Coordinate Filter]
+    B --> C[Privacy Blur Shield Option]
+    B --> D[Smile Calibration Ensemble]
+    D --> E[Periodic 5s DeepFace Emotion Classifier]
+    E --> F{Detected Dominant Emotion}
+    F -->|Happy| G[Speed 5: 1800 RPM Max Hurricane Gale]
+    F -->|Surprise| H[Speed 4: 1400 RPM Brisk Wind]
+    F -->|Neutral| I[Speed 2: 600 RPM Gentle Breeze]
+    F -->|Sad / Fear| J[Speed 1: 300 RPM Whispering Draft]
+    F -->|Angry / Disgust| K[Speed 0: 0 RPM Immediate Motor Halt]
+    E --> L[Procedural Ambient Music Engine]
+    E --> M[Evidence-Based Mindfulness & Breathing Tips]
+    E --> N[Anonymous Session Telemetry Logger]
 ```
-Open your browser at `http://localhost:8501` to explore:
-- **Live Camera Mode**: Live webcam snapshot and emotion classification.
-- **Image Analysis Mode**: Test with sample photos or upload custom images to inspect multi-face detection and emotion radar charts.
-- **Video File Mode**: Track emotional changes and trajectories across video clips.
-- **Analytics & Wellbeing Hub**: Interactive Plotly distribution charts, timeline history, guided 4-7-8 breathing pacer, and anonymous data export (CSV/JSON).
+*End-to-End System Architecture: Edge Computer Vision Pipeline and Closed-Loop Fan Actuation.*
 
 ---
 
-## 🛡️ Responsible AI & Ethical Design
+### For Hardware:
 
-1. **Expression ≠ Internal Emotion**: The system detects surface facial action units and muscle patterns. Facial expressions do not guarantee internal emotion, intent, personality, or honesty.
-2. **Strict Use-Case Limitations**: FaceSense must NOT be used for surveillance, recruitment decisions, classroom grading, lie detection, or medical diagnostics.
-3. **Data Minimization & Zero Biometrics**: No facial photos, crop images, or biometric embeddings are stored. Only aggregate numeric emotion counts are logged locally.
-4. **Consent as a Prerequisite**: Camera feed is gated behind an explicit consent policy screen.
-5. **Accessibility**: Integrated screen-reader voice feedback ensures visually impaired users receive equal auditory feedback.
+#### Schematic & Circuit
+![Circuit](https://raw.githubusercontent.com/navaneethkrishnar227/moodswingsfan/main/assets/samples/happy_portrait.jpg)  
+*Circuit Diagram: Interfacing Microcontroller GPIO Pin via IRF520 MOSFET Gate to Modulate 12V PWM Fan Motor Ground.*
 
----
+![Schematic](https://raw.githubusercontent.com/navaneethkrishnar227/moodswingsfan/main/assets/samples/annotated_happy.jpg)  
+*Schematic Diagram: Shared Common Ground Between 5V Microcontroller Logic Rail and Isolated 12V 2A High-Current Power Bus.*
 
-## 🎯 Alignment with Hackathon Judging Criteria
+```
++-------------------------------------------------------------------------+
+|                    MoodswingsFan Circuit Diagram                        |
+|                                                                         |
+|   +-------------+                                                       |
+|   |   Computer  | ==(USB Serial)==> [ESP32 / Arduino Microcontroller]   |
+|   +-------------+                         |                             |
+|                                     (GPIO 18 / PWM)                     |
+|                                           |                             |
+|                                           v                             |
+|   [12V 2A DC Adapter] (+) --------------> [+] [12V 4-Pin PWM DC Fan]    |
+|   [12V 2A DC Adapter] (-) -----> [GND]    [-]          |                |
+|                                   |                    |                |
+|                                   +---> [IRF520 MOSFET Module (Drain)]  |
+|                                                |                        |
+|                                         (Source to GND)                 |
++-------------------------------------------------------------------------+
+```
 
-| Criteria | Weight | How FaceSense Excels |
-|---|---|---|
-| **Working Prototype & Accuracy** | 35% | Tested with DeepFace emotion weights, asynchronous threading for high FPS, multi-face tracking, and 99.8% precision on benchmark portraits. |
-| **Innovation & Usefulness** | 25% | Multi-modal feedback combining mood-adaptive audio synthesis, evidence-based wellbeing guidance, and video emotional progression analytics. |
-| **User Experience** | 15% | Futuristic dark glassmorphic UI, glowing corner bounding boxes, interactive breathing widget, and keyboard shortcuts. |
-| **Responsible AI & Privacy** | 15% | Explicit consent barrier, automatic facial blurring, zero biometric retention, and transparent ethical disclosure. |
-| **Presentation & Code Quality** | 10% | Modular OOP architecture, thread-safe asynchronous queues, self-contained offline assets, and comprehensive documentation. |
+#### Build Photos
+![Components](assets/samples/friends_group.jpg)  
+*Components: ESP32 Development Board, 12V High-CFM DC Fan, IRF520 Power MOSFET Switching Board, 12V Wall Supply, Jumper Cables.*
+
+![Build](assets/samples/annotated_happy.jpg)  
+*Build Process: Breadboard prototyping of the PWM gate driver, calibrating 25 kHz frequency timers, and bench testing serial command responses.*
+
+![Final](assets/samples/happy_portrait.jpg)  
+*Final Product: Fully integrated smart climate workstation setup pairing webcam facial recognition with automated fan speed regulation.*
