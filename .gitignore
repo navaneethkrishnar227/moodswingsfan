@@ -1,0 +1,24 @@
+# Python virtual environment
+venv/
+env/
+ENV/
+.env/
+
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# IDE & Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary & scratch files
+scratch/
+*.log
+
+# Streamlit
+.streamlit/secrets.toml

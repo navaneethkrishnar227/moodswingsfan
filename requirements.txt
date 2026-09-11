@@ -1,0 +1,17 @@
+# FaceSense - Real-Time Facial Emotion Detection
+# Python 3.10 or 3.11 recommended
+
+# Core Hackathon Requirements
+deepface==0.0.95
+opencv-python==4.11.0.86
+tf-keras==2.19.0
+tensorflow==2.19.1
+
+# Bonus Features Requirements
+streamlit>=1.35.0
+plotly>=5.20.0
+pygame>=2.5.0
+pyttsx3>=2.90
+pandas>=2.0.0
+numpy>=1.24.0
+Pillow>=10.0.0
