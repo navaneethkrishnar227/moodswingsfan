@@ -1,0 +1,15 @@
+# Ignore Python virtual environment and local desktop packages from Vercel deployment
+venv/
+.venv/
+__pycache__/
+*.pyc
+desktop_app.py
+web_app.py
+modules/
+scripts/
+scratch/
+requirements.txt
+packages.txt
+.streamlit/
+push_to_github.bat
+push_to_github.ps1

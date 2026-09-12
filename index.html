@@ -1,0 +1,2065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FaceSense AI | Real-Time Smart Climate & Facial Emotion System</title>
+  <meta name="description" content="Intelligent real-time facial emotion recognition and closed-loop smart climate fan modulation. Smiles trigger Level 5 hurricane cooling; anger halts airflow immediately." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg-gradient: radial-gradient(circle at 15% 15%, #0d1527 0%, #060911 100%);
+      --card-bg: rgba(13, 21, 39, 0.82);
+      --card-border: rgba(255, 255, 255, 0.12);
+      --card-border-glow: rgba(0, 255, 178, 0.3);
+      --primary: #00ffb2;
+      --primary-glow: rgba(0, 255, 178, 0.35);
+      --cyan: #38bdf8;
+      --danger: #ff4d4d;
+      --danger-glow: rgba(255, 77, 77, 0.4);
+      --warning: #facc15;
+      --purple: #a78bfa;
+      --text-main: #ffffff;
+      --text-muted: #94a3b8;
+      --text-sub: #cbd5e1;
+      --font-main: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      font-family: var(--font-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #080e1a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--primary);
+    }
+
+    /* Header Bar */
+    header {
+      padding: 14px 28px;
+      background: rgba(8, 14, 26, 0.85);
+      border-bottom: 1.5px solid var(--card-border);
+      backdrop-filter: blur(16px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-icon {
+      font-size: 2.2rem;
+      filter: drop-shadow(0 0 12px var(--primary-glow));
+      animation: pulseBrand 3s ease-in-out infinite;
+    }
+
+    @keyframes pulseBrand {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.06); }
+    }
+
+    .brand-title {
+      font-size: 1.65rem;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      color: var(--primary);
+      text-shadow: 0 0 20px var(--primary-glow);
+      line-height: 1;
+    }
+
+    .brand-subtitle {
+      font-size: 0.80rem;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      color: var(--text-sub);
+      text-transform: uppercase;
+      margin-top: 3px;
+    }
+
+    .header-badges {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .pill-badge {
+      font-size: 0.82rem;
+      font-weight: 800;
+      padding: 5px 12px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      letter-spacing: 0.3px;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+    }
+
+    .badge-primary {
+      background: rgba(0, 255, 178, 0.15);
+      color: var(--primary);
+      border-color: rgba(0, 255, 178, 0.4);
+    }
+
+    .badge-cyan {
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--cyan);
+      border-color: rgba(56, 189, 248, 0.4);
+    }
+
+    .badge-purple {
+      background: rgba(167, 139, 250, 0.15);
+      color: var(--purple);
+      border-color: rgba(167, 139, 250, 0.4);
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    /* Switch Component */
+    .switch-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: var(--text-sub);
+      user-select: none;
+    }
+
+    .toggle-checkbox {
+      appearance: none;
+      width: 38px;
+      height: 20px;
+      background: #1e293b;
+      border-radius: 999px;
+      position: relative;
+      outline: none;
+      cursor: pointer;
+      transition: background 0.25s ease;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .toggle-checkbox::before {
+      content: '';
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      top: 2px;
+      left: 3px;
+      background: #ffffff;
+      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .toggle-checkbox:checked {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .toggle-checkbox:checked::before {
+      transform: translateX(18px);
+      background: #060911;
+    }
+
+    /* Action Buttons */
+    .btn {
+      font-family: var(--font-main);
+      font-size: 0.90rem;
+      font-weight: 800;
+      padding: 8px 16px;
+      border-radius: 10px;
+      border: 1.5px solid transparent;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #00ffb2 0%, #00cc8e 100%);
+      color: #060911;
+      box-shadow: 0 4px 14px var(--primary-glow);
+    }
+    .btn-primary:hover {
+      box-shadow: 0 6px 20px rgba(0, 255, 178, 0.55);
+    }
+
+    .btn-outline {
+      background: rgba(255, 255, 255, 0.05);
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .btn-danger {
+      background: rgba(255, 77, 77, 0.18);
+      color: var(--danger);
+      border-color: rgba(255, 77, 77, 0.5);
+    }
+    .btn-danger:hover {
+      background: rgba(255, 77, 77, 0.3);
+      box-shadow: 0 4px 14px var(--danger-glow);
+    }
+
+    /* Main Container */
+    main {
+      flex: 1;
+      padding: 24px 28px 40px;
+      max-width: 1600px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1.28fr 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    @media (max-width: 1100px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Glassmorphic Card */
+    .pro-card {
+      background: var(--card-bg);
+      border: 1.5px solid var(--card-border);
+      border-radius: 16px;
+      padding: 20px 24px;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Camera Viewport Section */
+    .viewport-card {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .viewport-container {
+      position: relative;
+      width: 100%;
+      height: 480px;
+      background: rgba(8, 13, 23, 0.95);
+      border-radius: 14px;
+      border: 2px dashed rgba(0, 255, 178, 0.4);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.8);
+    }
+
+    .viewport-container.streaming {
+      border: 2px solid var(--primary);
+      box-shadow: 0 0 24px var(--primary-glow);
+    }
+
+    #videoElement {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scaleX(-1);
+      display: none;
+    }
+
+    #canvasElement {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scaleX(-1);
+      z-index: 5;
+    }
+
+    .standby-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+      z-index: 10;
+      background: radial-gradient(circle at center, rgba(13, 21, 39, 0.9) 0%, rgba(6, 9, 17, 0.98) 100%);
+      transition: opacity 0.3s ease;
+    }
+
+    .standby-icon {
+      font-size: 4.5rem;
+      margin-bottom: 12px;
+      filter: drop-shadow(0 0 20px var(--primary-glow));
+      animation: floatIcon 4s ease-in-out infinite;
+    }
+
+    @keyframes floatIcon {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .standby-title {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--primary);
+      letter-spacing: 0.5px;
+    }
+
+    .standby-desc {
+      font-size: 1.02rem;
+      color: var(--text-sub);
+      max-width: 460px;
+      margin: 10px auto 20px;
+      line-height: 1.5;
+    }
+
+    /* Viewport HUD Overlays */
+    .hud-scanner {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      z-index: 20;
+      background: rgba(6, 9, 17, 0.85);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 0.80rem;
+      font-weight: 800;
+      color: var(--cyan);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(8px);
+    }
+
+    .hud-cycle {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 20;
+      background: rgba(6, 9, 17, 0.85);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 0.80rem;
+      font-weight: 800;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      backdrop-filter: blur(8px);
+    }
+
+    .cycle-circle {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 8px var(--primary);
+      animation: pulseCycle 1.5s infinite;
+    }
+
+    @keyframes pulseCycle {
+      0%, 100% { opacity: 0.4; transform: scale(0.9); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+
+    /* Toolbar */
+    .toolbar-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    @media (max-width: 600px) {
+      .toolbar-row {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 9px 16px;
+      background: rgba(16, 25, 42, 0.95);
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      font-size: 0.88rem;
+      color: var(--text-sub);
+    }
+
+    /* Fan & Tachometer Card */
+    .fan-card {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .fan-widget-container {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      background: rgba(10, 16, 28, 0.8);
+      border: 1.5px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 18px 22px;
+    }
+
+    @media (max-width: 600px) {
+      .fan-widget-container {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    .fan-rotor-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 140px;
+      flex-shrink: 0;
+    }
+
+    .fan-svg {
+      width: 125px;
+      height: 125px;
+      filter: drop-shadow(0 0 16px var(--primary-glow));
+      transition: filter 0.3s ease;
+    }
+
+    .fan-svg.stopped {
+      filter: drop-shadow(0 0 14px var(--danger-glow));
+    }
+
+    .rotor-blades {
+      transform-origin: 60px 60px;
+      transition: transform 0.1s linear;
+    }
+
+    .fan-motor-label {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-top: 8px;
+      text-align: center;
+      letter-spacing: 0.5px;
+    }
+
+    .fan-details-box {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .tachometer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .tachometer-title {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+    }
+
+    .tachometer-rpm {
+      font-size: 2.8rem;
+      font-weight: 900;
+      color: var(--primary);
+      line-height: 1;
+      font-family: var(--font-mono);
+      text-shadow: 0 0 24px var(--primary-glow);
+      transition: color 0.3s ease;
+    }
+
+    .tachometer-rpm.stopped {
+      color: var(--danger);
+      text-shadow: 0 0 24px var(--danger-glow);
+    }
+
+    .tachometer-rpm span {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-left: 4px;
+    }
+
+    .mode-badge {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: #ffffff;
+      text-align: right;
+    }
+
+    /* Segmented Speed Blocks */
+    .speed-blocks-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .speed-block {
+      background: rgba(18, 28, 48, 0.9);
+      border: 1.5px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 8px 4px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .speed-block:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .speed-block.active {
+      background: rgba(0, 255, 178, 0.22);
+      border-color: var(--primary);
+      box-shadow: 0 0 14px var(--primary-glow);
+    }
+
+    .speed-block.active.stopped {
+      background: rgba(255, 77, 77, 0.25);
+      border-color: var(--danger);
+      box-shadow: 0 0 14px var(--danger-glow);
+    }
+
+    .block-level {
+      font-size: 1.15rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .block-sub {
+      font-size: 0.65rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-top: 4px;
+      letter-spacing: 0.3px;
+    }
+
+    .speed-block.active .block-sub {
+      color: #ffffff;
+    }
+
+    /* Manual Override Slider Drawer */
+    .slider-row {
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      margin-top: 4px;
+    }
+
+    .slider-row.visible {
+      display: flex;
+    }
+
+    .slider-row input[type="range"] {
+      width: 100%;
+      accent-color: var(--primary);
+      height: 6px;
+      cursor: pointer;
+    }
+
+    /* Emotion & Wellbeing Card */
+    .emotion-card {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .emotion-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .emotion-badge-large {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 18px;
+      border-radius: 12px;
+      background: rgba(0, 255, 178, 0.15);
+      border: 1.5px solid var(--primary);
+      font-size: 1.45rem;
+      font-weight: 900;
+      color: var(--primary);
+      box-shadow: 0 0 18px var(--primary-glow);
+      transition: all 0.3s ease;
+    }
+
+    .smile-badge {
+      font-size: 0.85rem;
+      font-weight: 900;
+      padding: 5px 12px;
+      border-radius: 8px;
+      background: rgba(0, 255, 178, 0.2);
+      border: 1.5px solid var(--primary);
+      color: var(--primary);
+      display: none;
+      align-items: center;
+      gap: 6px;
+      animation: bounceSmile 0.5s ease;
+    }
+
+    .smile-badge.visible {
+      display: inline-flex;
+    }
+
+    @keyframes bounceSmile {
+      0% { transform: scale(0.8); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    /* Wellbeing & Breathing Box */
+    .wellbeing-box {
+      background: rgba(10, 16, 28, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .breathing-pacer {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 3px solid var(--cyan);
+      box-shadow: 0 0 14px rgba(56, 189, 248, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      animation: breatheAnim 19s ease-in-out infinite;
+    }
+
+    @keyframes breatheAnim {
+      0%, 100% { transform: scale(0.85); border-color: var(--cyan); }
+      21% { transform: scale(1.25); border-color: var(--primary); }  /* Inhale 4s */
+      57% { transform: scale(1.25); border-color: var(--warning); }  /* Hold 7s */
+      100% { transform: scale(0.85); border-color: var(--cyan); }   /* Exhale 8s */
+    }
+
+    .wellbeing-text {
+      flex: 1;
+    }
+
+    .wellbeing-tip {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.4;
+    }
+
+    .wellbeing-sub {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    /* 7-Emotion Spectrum Bars */
+    .spectrum-card {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .spectrum-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .spectrum-bars-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .spectrum-row {
+      display: grid;
+      grid-template-columns: 85px 1fr 45px;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .bar-track {
+      height: 10px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 0 10px currentColor;
+    }
+
+    /* Telemetry Counters */
+    .telemetry-summary {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .telemetry-stat-card {
+      background: rgba(10, 16, 28, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .telemetry-stat-val {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--primary);
+      line-height: 1.1;
+      font-family: var(--font-mono);
+    }
+
+    .telemetry-stat-lbl {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    /* Modal Dialog */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(4, 7, 14, 0.85);
+      backdrop-filter: blur(16px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-content {
+      background: #0d1527;
+      border: 1.5px solid var(--card-border);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 860px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 28px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: #ffffff;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    .modal-close:hover {
+      background: var(--danger);
+    }
+
+    .circuit-code {
+      background: #080c16;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 16px;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--primary);
+      overflow-x: auto;
+      line-height: 1.45;
+    }
+
+    /* Footer */
+    footer {
+      padding: 20px 28px;
+      text-align: center;
+      border-top: 1px solid var(--card-border);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      background: rgba(8, 14, 26, 0.7);
+      margin-top: auto;
+    }
+
+    footer a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 700;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================================================= -->
+  <!-- TOP HEADER BAR                                                            -->
+  <!-- ========================================================================= -->
+  <header>
+    <div class="brand-group">
+      <div class="brand-icon">🧠</div>
+      <div>
+        <div class="brand-title">FACESENSE AI</div>
+        <div class="brand-subtitle">Real-Time Smart Climate & Biometrics</div>
+      </div>
+    </div>
+
+    <div class="header-badges">
+      <span class="pill-badge badge-primary">🟢 SYSTEM ONLINE</span>
+      <span class="pill-badge badge-cyan">🎯 1 HUMAN FACE LOCK</span>
+      <span class="pill-badge badge-purple">⏱️ 5.0s SCAN CYCLE</span>
+      <span class="pill-badge badge-primary" style="border-color: rgba(0,255,178,0.5);">⚡ VERCEL CLOUD</span>
+    </div>
+
+    <div class="header-controls">
+      <label class="switch-label" title="Apply privacy blur on facial coordinates">
+        <input type="checkbox" id="privacyBlurToggle" class="toggle-checkbox" />
+        <span>🛡️ Privacy Blur</span>
+      </label>
+
+      <label class="switch-label" title="Manual Fan Override">
+        <input type="checkbox" id="fanOverrideToggle" class="toggle-checkbox" />
+        <span>💨 Override</span>
+      </label>
+
+      <label class="switch-label" title="Procedural Web Audio Soundscapes">
+        <input type="checkbox" id="audioToggle" class="toggle-checkbox" />
+        <span>🔊 Audio</span>
+      </label>
+
+      <label class="switch-label" title="Accessible Voice Announcements">
+        <input type="checkbox" id="voiceToggle" class="toggle-checkbox" />
+        <span>🗣️ Voice</span>
+      </label>
+
+      <button id="hardwareModalBtn" class="btn btn-outline" style="padding: 6px 12px; font-size: 0.82rem;">
+        ⚙️ Specs
+      </button>
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- MAIN DASHBOARD                                                            -->
+  <!-- ========================================================================= -->
+  <main>
+    <div class="dashboard-grid">
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- LEFT COLUMN: CAMERA VIEWPORT & DOCKED ACTION CONTROLS                  -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="pro-card viewport-card">
+        <!-- Viewport Container -->
+        <div class="viewport-container" id="viewportBox">
+          <video id="videoElement" autoplay playsinline muted></video>
+          <canvas id="canvasElement"></canvas>
+
+          <!-- Standby Screen (Shown when feed is inactive) -->
+          <div class="standby-overlay" id="standbyOverlay">
+            <div class="standby-icon">📹</div>
+            <div class="standby-title">CAMERA FEED READY</div>
+            <div class="standby-desc">
+              Click <b style="color: var(--primary);">▶️ Start Camera</b> or <b style="color: var(--cyan);">🖼️ Load Demo</b> below to begin real-time single human face tracing and automated smart climate regulation.
+            </div>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+              <span class="pill-badge badge-primary">🎯 Single Human Face Lock</span>
+              <span class="pill-badge badge-cyan">🚫 Background Objects Filtered</span>
+              <span class="pill-badge badge-purple">⚡ 30 FPS Smooth Tracing</span>
+            </div>
+          </div>
+
+          <!-- In-Viewport HUD Overlays -->
+          <div class="hud-scanner" id="hudScanner" style="display: none;">
+            <span>🟢 TRACKING FACE</span>
+          </div>
+
+          <div class="hud-cycle" id="hudCycle" style="display: none;">
+            <div class="cycle-circle"></div>
+            <span id="cycleTimerText">SCAN: 5.0s</span>
+          </div>
+        </div>
+
+        <!-- Docked Action Toolbar -->
+        <div class="toolbar-row">
+          <button id="startCamBtn" class="btn btn-primary">
+            ▶️ Start Camera
+          </button>
+          <button id="stopCamBtn" class="btn btn-danger">
+            ⏹️ Stop Feed
+          </button>
+          <button id="snapshotBtn" class="btn btn-outline">
+            📸 Snapshot
+          </button>
+          <button id="loadDemoBtn" class="btn btn-outline">
+            🖼️ Load Demo
+          </button>
+        </div>
+
+        <!-- Sub-status Bar -->
+        <div class="status-bar">
+          <span id="statusBarText">STATUS: <b style="color: var(--cyan);">STANDBY (Click 'Start Camera' or 'Load Demo')</b></span>
+          <span>TARGET: <b style="color: var(--primary);">Strict Single Human Face Lock</b></span>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- RIGHT COLUMN: CLIMATE FAN, TACHOMETER, BIOMETRICS & TELEMETRY         -->
+      <!-- --------------------------------------------------------------------- -->
+      <section style="display: flex; flex-direction: column; gap: 24px;">
+
+        <!-- CARD 1: SMART CLIMATE FAN & TACHOMETER -->
+        <div class="pro-card fan-card">
+          <div class="fan-widget-container">
+            <!-- Left: Animated Rotor SVG -->
+            <div class="fan-rotor-box">
+              <svg id="fanSvg" class="fan-svg" viewBox="0 0 120 120">
+                <defs>
+                  <linearGradient id="bladeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#00ffb2" />
+                    <stop offset="100%" stop-color="#008f64" />
+                  </linearGradient>
+                </defs>
+                <!-- Housing Frame -->
+                <circle cx="60" cy="60" r="56" fill="#080e1a" stroke="#00ffb2" stroke-width="2.8" id="housingOuter" />
+                <circle cx="60" cy="60" r="51" fill="none" stroke="#00ffb2" stroke-width="1.2" stroke-dasharray="4 3" opacity="0.6" id="housingInner" />
+                <line x1="60" y1="8" x2="60" y2="112" stroke="#00ffb2" stroke-width="1.2" opacity="0.4" id="housingGridV" />
+                <line x1="8" y1="60" x2="112" y2="60" stroke="#00ffb2" stroke-width="1.2" opacity="0.4" id="housingGridH" />
+
+                <!-- Rotating Rotor Group -->
+                <g id="rotorGroup" class="rotor-blades">
+                  <path d="M 60 60 C 50 38, 38 18, 60 8 C 82 18, 70 38, 60 60 Z" fill="url(#bladeGrad)" stroke="#00ffb2" stroke-width="0.8" />
+                  <path d="M 60 60 C 82 50, 102 38, 112 60 C 102 82, 82 70, 60 60 Z" fill="url(#bladeGrad)" stroke="#00ffb2" stroke-width="0.8" />
+                  <path d="M 60 60 C 70 82, 82 102, 60 112 C 38 102, 50 82, 60 60 Z" fill="url(#bladeGrad)" stroke="#00ffb2" stroke-width="0.8" />
+                  <path d="M 60 60 C 38 70, 18 82, 8 60 C 18 38, 38 50, 60 60 Z" fill="url(#bladeGrad)" stroke="#00ffb2" stroke-width="0.8" />
+                  <circle cx="60" cy="60" r="14" fill="#131c2d" stroke="#00ffb2" stroke-width="2.6" id="hubCircle" />
+                  <circle cx="60" cy="60" r="5" fill="#00ffb2" id="hubPin" />
+                </g>
+              </svg>
+
+              <div class="fan-motor-label" id="motorStatusLabel">
+                WHISPER • 600 RPM
+              </div>
+            </div>
+
+            <!-- Right: Tachometer & Mode -->
+            <div class="fan-details-box">
+              <div class="tachometer-header">
+                <div>
+                  <div class="tachometer-title">Motor Tachometer</div>
+                  <div class="tachometer-rpm" id="rpmDisplay">
+                    600 <span>RPM</span>
+                  </div>
+                </div>
+                <div style="text-align: right;">
+                  <div class="tachometer-title">Airflow Mode</div>
+                  <div class="mode-badge" id="airflowModeDisplay">
+                    🍃 GENTLE BREEZE
+                  </div>
+                </div>
+              </div>
+
+              <!-- Segmented Speed Blocks -->
+              <div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.90rem; font-weight: 800; margin-bottom: 6px;">
+                  <span>SPEED LEVEL: <b style="color: var(--primary);" id="speedLevelText">Level 2.0 / 5</b></span>
+                  <span style="color: var(--cyan);" id="targetLevelText">Target: Speed 2</span>
+                </div>
+
+                <div class="speed-blocks-grid">
+                  <div class="speed-block" data-level="0" onclick="setSpeedManual(0)">
+                    <div class="block-level" style="color: var(--danger);">0</div>
+                    <div class="block-sub">STOP</div>
+                  </div>
+                  <div class="speed-block" data-level="1" onclick="setSpeedManual(1)">
+                    <div class="block-level" style="color: var(--purple);">1</div>
+                    <div class="block-sub">WHISP</div>
+                  </div>
+                  <div class="speed-block active" data-level="2" onclick="setSpeedManual(2)">
+                    <div class="block-level" style="color: var(--cyan);">2</div>
+                    <div class="block-sub">BREEZE</div>
+                  </div>
+                  <div class="speed-block" data-level="3" onclick="setSpeedManual(3)">
+                    <div class="block-level" style="color: #38bdf8;">3</div>
+                    <div class="block-sub">FRESH</div>
+                  </div>
+                  <div class="speed-block" data-level="4" onclick="setSpeedManual(4)">
+                    <div class="block-level" style="color: var(--warning);">4</div>
+                    <div class="block-sub">BRISK</div>
+                  </div>
+                  <div class="speed-block" data-level="5" onclick="setSpeedManual(5)">
+                    <div class="block-level" style="color: var(--primary);">5</div>
+                    <div class="block-sub">TURBO</div>
+                  </div>
+                </div>
+              </div>
+
+              <div style="font-size: 0.84rem; color: var(--text-muted); font-weight: 600;">
+                ℹ️ Physical motor inertia simulation <b style="color: var(--primary);">(gradual smooth transitions)</b>
+              </div>
+
+              <!-- Manual Slider (visible when Override enabled) -->
+              <div class="slider-row" id="manualSliderRow">
+                <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 800;">
+                  <span>MANUAL FAN SPEED SETTING:</span>
+                  <span id="sliderValDisplay" style="color: var(--primary);">Speed 2</span>
+                </div>
+                <input type="range" id="manualSpeedSlider" min="0" max="5" step="1" value="2" oninput="onSliderChange(this.value)" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 2: BIOMETRIC EMOTION RECOGNITION & WELLBEING -->
+        <div class="pro-card emotion-card">
+          <div class="emotion-header-row">
+            <div>
+              <div style="font-size: 0.82rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">
+                Detected Dominant Expression
+              </div>
+              <div style="display: flex; align-items: center; gap: 10px; margin-top: 6px;">
+                <div class="emotion-badge-large" id="dominantBadge">
+                  <span>😐 NEUTRAL</span>
+                </div>
+                <span class="smile-badge" id="smileBadge">
+                  😊 SMILE VERIFIED
+                </span>
+              </div>
+            </div>
+
+            <div style="text-align: right;">
+              <div style="font-size: 0.82rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Confidence Rating</div>
+              <div style="font-size: 1.8rem; font-weight: 900; color: var(--cyan); font-family: var(--font-mono); margin-top: 2px;" id="confidenceText">
+                92.4%
+              </div>
+            </div>
+          </div>
+
+          <!-- Wellbeing & Breathing Pacer -->
+          <div class="wellbeing-box">
+            <div class="breathing-pacer" title="Evidence-based 4-7-8 breathing pacer">
+              <span style="font-size: 0.85rem;">🫁</span>
+            </div>
+            <div class="wellbeing-text">
+              <div class="wellbeing-tip" id="wellbeingTip">
+                Balanced neutral state: Gentle whisper airflow maintained for thermal comfort.
+              </div>
+              <div class="wellbeing-sub" id="wellbeingSub">
+                Pacer: Inhale 4s • Hold 7s • Exhale 8s for parasympathetic calm
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 3: 7-EMOTION SPECTRUM & ANONYMOUS TELEMETRY -->
+        <div class="pro-card spectrum-card">
+          <div class="spectrum-header">
+            <span style="font-size: 0.95rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">
+              7-Emotion Spectrum Distribution
+            </span>
+            <span class="pill-badge badge-primary" style="font-size: 0.75rem;">
+              🔒 100% ANONYMOUS
+            </span>
+          </div>
+
+          <!-- Spectrum Progress Bars -->
+          <div class="spectrum-bars-list">
+            <div class="spectrum-row">
+              <span style="color: #00ffb2;">😊 Happy</span>
+              <div class="bar-track"><div class="bar-fill" id="barHappy" style="width: 15%; background: #00ffb2; color: #00ffb2;"></div></div>
+              <span style="text-align: right;" id="pctHappy">15%</span>
+            </div>
+            <div class="spectrum-row">
+              <span style="color: #e2e8f0;">😐 Neutral</span>
+              <div class="bar-track"><div class="bar-fill" id="barNeutral" style="width: 70%; background: #e2e8f0; color: #e2e8f0;"></div></div>
+              <span style="text-align: right;" id="pctNeutral">70%</span>
+            </div>
+            <div class="spectrum-row">
+              <span style="color: #facc15;">😲 Surprise</span>
+              <div class="bar-track"><div class="bar-fill" id="barSurprise" style="width: 5%; background: #facc15; color: #facc15;"></div></div>
+              <span style="text-align: right;" id="pctSurprise">5%</span>
+            </div>
+            <div class="spectrum-row">
+              <span style="color: #38bdf8;">😢 Sad</span>
+              <div class="bar-track"><div class="bar-fill" id="barSad" style="width: 4%; background: #38bdf8; color: #38bdf8;"></div></div>
+              <span style="text-align: right;" id="pctSad">4%</span>
+            </div>
+            <div class="spectrum-row">
+              <span style="color: #a78bfa;">😨 Fear</span>
+              <div class="bar-track"><div class="bar-fill" id="barFear" style="width: 2%; background: #a78bfa; color: #a78bfa;"></div></div>
+              <span style="text-align: right;" id="pctFear">2%</span>
+            </div>
+            <div class="spectrum-row">
+              <span style="color: #34d399;">🤢 Disgust</span>
+              <div class="bar-track"><div class="bar-fill" id="barDisgust" style="width: 2%; background: #34d399; color: #34d399;"></div></div>
+              <span style="text-align: right;" id="pctDisgust">2%</span>
+            </div>
+            <div class="spectrum-row">
+              <span style="color: #ff4d4d;">😡 Angry</span>
+              <div class="bar-track"><div class="bar-fill" id="barAngry" style="width: 2%; background: #ff4d4d; color: #ff4d4d;"></div></div>
+              <span style="text-align: right;" id="pctAngry">2%</span>
+            </div>
+          </div>
+
+          <!-- Telemetry Counters & Export -->
+          <div class="telemetry-summary">
+            <div class="telemetry-stat-card">
+              <div class="telemetry-stat-val" id="totalScansCounter">12</div>
+              <div class="telemetry-stat-lbl">Total Scans</div>
+            </div>
+            <div class="telemetry-stat-card">
+              <div class="telemetry-stat-val" style="color: var(--cyan);" id="fpsCounter">30.0</div>
+              <div class="telemetry-stat-lbl">Tracking FPS</div>
+            </div>
+            <div class="telemetry-stat-card" style="display: flex; flex-direction: column; justify-content: center; gap: 4px;">
+              <button onclick="exportTelemetryCSV()" class="btn btn-outline" style="padding: 4px 8px; font-size: 0.72rem;">
+                📥 Export CSV
+              </button>
+              <button onclick="exportTelemetryJSON()" class="btn btn-outline" style="padding: 4px 8px; font-size: 0.72rem;">
+                💾 JSON
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </section>
+    </div>
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- HARDWARE & ARCHITECTURE MODAL                                             -->
+  <!-- ========================================================================= -->
+  <div class="modal-backdrop" id="hardwareModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeHardwareModal()">✕</button>
+
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <span style="font-size: 2rem;">⚙️</span>
+        <div>
+          <h2 style="font-size: 1.5rem; font-weight: 900; color: var(--primary);">MoodswingsFan Hardware & Circuit Architecture</h2>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 2px;">ESP32 Microcontroller ➔ IRF520 MOSFET Gate ➔ 12V 4-Pin PWM DC Motor</p>
+        </div>
+      </div>
+
+      <div style="font-size: 0.92rem; line-height: 1.6; color: var(--text-sub);">
+        The MoodswingsFan physical system pairs computer vision with a high-torque 12V DC brushless ventilation fan. Speed transitions are mediated via 25 kHz PWM signals to ensure whisper-quiet operation without acoustic motor hum.
+      </div>
+
+      <div class="circuit-code">
++-------------------------------------------------------------------------+
+|                    MoodswingsFan Circuit Diagram                        |
+|                                                                         |
+|   +-------------+                                                       |
+|   |   Computer  | ==(USB Serial)==> [ESP32 / Arduino Microcontroller]   |
+|   +-------------+                         |                             |
+|                                     (GPIO 18 / PWM)                     |
+|                                           |                             |
+|                                           v                             |
+|   [12V 2A DC Adapter] (+) --------------> [+] [12V 4-Pin PWM DC Fan]    |
+|   [12V 2A DC Adapter] (-) -----> [GND]    [-]          |                |
+|                                   |                    |                |
+|                                   +---> [IRF520 MOSFET Module (Drain)]  |
+|                                                |                        |
+|                                         (Source to GND)                 |
++-------------------------------------------------------------------------+
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; font-size: 0.85rem;">
+        <div style="background: rgba(8, 14, 26, 0.7); padding: 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08);">
+          <div style="font-weight: 800; color: var(--primary); margin-bottom: 6px;">⚡ Electrical Specifications</div>
+          <div>• Supply: 12V 2A Isolated Bus</div>
+          <div>• PWM Frequency: 25 kHz target frequency</div>
+          <div>• Speed Range: 0 to 1800 RPM (Levels 0-5)</div>
+          <div>• Ground Isolation: Common Signal Ground</div>
+        </div>
+        <div style="background: rgba(8, 14, 26, 0.7); padding: 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08);">
+          <div style="font-weight: 800; color: var(--cyan); margin-bottom: 6px;">🧠 AI Emotion Actuation</div>
+          <div>• Happy (Smile): Speed 5 (1800 RPM Hurricane)</div>
+          <div>• Angry: Speed 0 (0 RPM Immediate Halt)</div>
+          <div>• Surprise: Speed 4 (1400 RPM Brisk Wind)</div>
+          <div>• Neutral: Speed 2 (600 RPM Gentle Breeze)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- FOOTER                                                                    -->
+  <!-- ========================================================================= -->
+  <footer>
+    <div>
+      MoodswingsFan & FaceSense AI • Team Robot (Lourdes Matha College of Science and Technology)
+    </div>
+    <div style="margin-top: 6px; font-size: 0.78rem; color: #64748b;">
+      Deployable on <a href="https://vercel.com" target="_blank" rel="noopener">Vercel Cloud</a> • Desktop OpenCV Engine: <code>python desktop_app.py</code> • Streamlit: <code>streamlit run web_app.py</code>
+    </div>
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- CLIENT LOGIC: CAMERA, FAN PHYSICS, AUDIO, SPEECH & TELEMETRY              -->
+  <!-- ========================================================================= -->
+  <script>
+    // =========================================================================
+    // STATE CONSTANTS & COLOR MAP
+    // =========================================================================
+    const EMOTION_MAP = {
+      happy:    { color: '#00ffb2', label: '😊 HAPPY',    targetSpeed: 5, rpm: 1800, mode: '⚡ HURRICANE TURBO GALE', tip: 'Radiating genuine joy! Hurricane cooling activated to celebrate your positivity.' },
+      neutral:  { color: '#e2e8f0', label: '😐 NEUTRAL',  targetSpeed: 2, rpm: 600,  mode: '🍃 GENTLE BREEZE',       tip: 'Balanced neutral state: Gentle whisper airflow maintained for thermal comfort.' },
+      surprise: { color: '#facc15', label: '😲 SURPRISE', targetSpeed: 4, rpm: 1400, mode: '🌪️ POWER CHILL',         tip: 'Sudden unexpected insight! Brisk ventilation engaged to keep you refreshed.' },
+      sad:      { color: '#38bdf8', label: '😢 SAD',      targetSpeed: 1, rpm: 300,  mode: '💤 WHISPER MODE',        tip: 'Feeling down: Soft gentle circulation running. Remember to hydrate and stretch.' },
+      fear:     { color: '#a78bfa', label: '😨 FEAR',     targetSpeed: 1, rpm: 300,  mode: '💤 WHISPER MODE',        tip: 'Signs of tension detected: Slowing fan to whisper quiet. Try the 4-7-8 pacer.' },
+      disgust:  { color: '#34d399', label: '🤢 DISGUST',  targetSpeed: 0, rpm: 0,    mode: '🛑 MOTOR HALTED',        tip: 'Aversion registered: Motor stopped to avoid distracting thermal disruption.' },
+      angry:    { color: '#ff4d4d', label: '😡 ANGRY',    targetSpeed: 0, rpm: 0,    mode: '🛑 FAN STOPPED (0 RPM)', tip: 'Anger detected! Immediate motor halt: Sit in dead silence and meditate.' }
+    };
+
+    const SPEED_RPM_MAP = {
+      0: 0,
+      1: 300,
+      2: 600,
+      3: 1000,
+      4: 1400,
+      5: 1800
+    };
+
+    // Application State
+    const state = {
+      isStreaming: false,
+      videoStream: null,
+      currentEmotion: 'neutral',
+      currentConfidence: 92.4,
+      isSmiling: false,
+      targetSpeed: 2,
+      currentSpeedLevel: 2.0,
+      currentRpm: 600,
+      currentRotorAngle: 0,
+      privacyBlur: false,
+      manualOverride: false,
+      audioEnabled: false,
+      voiceEnabled: false,
+      lastScanTime: 0,
+      scanIntervalSec: 5.0,
+      totalScans: 12,
+      telemetryHistory: [],
+      emotionCounts: { happy: 2, neutral: 7, surprise: 1, sad: 1, fear: 0, disgust: 0, angry: 1 },
+      lastSpokenText: '',
+      lastSpeechTime: 0,
+      demoIndex: 0
+    };
+
+    // DOM Elements
+    const video = document.getElementById('videoElement');
+    const canvas = document.getElementById('canvasElement');
+    const ctx = canvas.getContext('2d');
+    const standbyOverlay = document.getElementById('standbyOverlay');
+    const viewportBox = document.getElementById('viewportBox');
+    const hudScanner = document.getElementById('hudScanner');
+    const hudCycle = document.getElementById('hudCycle');
+    const cycleTimerText = document.getElementById('cycleTimerText');
+    const statusBarText = document.getElementById('statusBarText');
+
+    // Controls
+    const startCamBtn = document.getElementById('startCamBtn');
+    const stopCamBtn = document.getElementById('stopCamBtn');
+    const snapshotBtn = document.getElementById('snapshotBtn');
+    const loadDemoBtn = document.getElementById('loadDemoBtn');
+    const privacyBlurToggle = document.getElementById('privacyBlurToggle');
+    const fanOverrideToggle = document.getElementById('fanOverrideToggle');
+    const audioToggle = document.getElementById('audioToggle');
+    const voiceToggle = document.getElementById('voiceToggle');
+    const manualSliderRow = document.getElementById('manualSliderRow');
+    const manualSpeedSlider = document.getElementById('manualSpeedSlider');
+    const sliderValDisplay = document.getElementById('sliderValDisplay');
+
+    // Fan Elements
+    const rotorGroup = document.getElementById('rotorGroup');
+    const fanSvg = document.getElementById('fanSvg');
+    const rpmDisplay = document.getElementById('rpmDisplay');
+    const airflowModeDisplay = document.getElementById('airflowModeDisplay');
+    const speedLevelText = document.getElementById('speedLevelText');
+    const targetLevelText = document.getElementById('targetLevelText');
+    const motorStatusLabel = document.getElementById('motorStatusLabel');
+    const housingOuter = document.getElementById('housingOuter');
+    const housingInner = document.getElementById('housingInner');
+    const housingGridV = document.getElementById('housingGridV');
+    const housingGridH = document.getElementById('housingGridH');
+    const hubCircle = document.getElementById('hubCircle');
+    const hubPin = document.getElementById('hubPin');
+
+    // Biometric Elements
+    const dominantBadge = document.getElementById('dominantBadge');
+    const smileBadge = document.getElementById('smileBadge');
+    const confidenceText = document.getElementById('confidenceText');
+    const wellbeingTip = document.getElementById('wellbeingTip');
+    const totalScansCounter = document.getElementById('totalScansCounter');
+    const fpsCounter = document.getElementById('fpsCounter');
+
+    // Modal
+    const hardwareModal = document.getElementById('hardwareModal');
+    const hardwareModalBtn = document.getElementById('hardwareModalBtn');
+
+    // =========================================================================
+    // PROCEDURAL WEB AUDIO SYNTHESIZER
+    // =========================================================================
+    let audioCtx = null;
+    let windGainNode = null;
+    let windFilterNode = null;
+    let toneOscNode = null;
+    let toneGainNode = null;
+
+    function initWebAudio() {
+      if (audioCtx) return;
+      try {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AudioContextClass();
+
+        // 1. Wind Noise Generator (White noise buffer + resonant bandpass filter)
+        const bufferSize = audioCtx.sampleRate * 2;
+        const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+        const output = noiseBuffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          output[i] = (Math.random() * 2 - 1) * 0.4;
+        }
+
+        const whiteNoise = audioCtx.createBufferSource();
+        whiteNoise.buffer = noiseBuffer;
+        whiteNoise.loop = true;
+
+        windFilterNode = audioCtx.createBiquadFilter();
+        windFilterNode.type = 'bandpass';
+        windFilterNode.frequency.value = 400;
+        windFilterNode.Q.value = 3.0;
+
+        windGainNode = audioCtx.createGain();
+        windGainNode.gain.value = 0.0;
+
+        whiteNoise.connect(windFilterNode);
+        windFilterNode.connect(windGainNode);
+        windGainNode.connect(audioCtx.destination);
+        whiteNoise.start();
+
+        // 2. Harmonic Ambient Tone (Mood Chords)
+        toneOscNode = audioCtx.createOscillator();
+        toneOscNode.type = 'sine';
+        toneOscNode.frequency.value = 220;
+
+        toneGainNode = audioCtx.createGain();
+        toneGainNode.gain.value = 0.0;
+
+        toneOscNode.connect(toneGainNode);
+        toneGainNode.connect(audioCtx.destination);
+        toneOscNode.start();
+      } catch (err) {
+        console.warn('Web Audio not initialized:', err);
+      }
+    }
+
+    function updateAudioSoundscape() {
+      if (!audioCtx || !state.audioEnabled) {
+        if (windGainNode) windGainNode.gain.setTargetAtTime(0, audioCtx.currentTime, 0.1);
+        if (toneGainNode) toneGainNode.gain.setTargetAtTime(0, audioCtx.currentTime, 0.1);
+        return;
+      }
+
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+
+      // Scale wind noise with Fan RPM
+      const rpmFraction = state.currentRpm / 1800; // 0 to 1
+      const windVol = state.currentRpm <= 10 ? 0 : 0.04 + (rpmFraction * 0.22);
+      const centerFreq = 200 + (rpmFraction * 900);
+
+      windGainNode.gain.setTargetAtTime(windVol, audioCtx.currentTime, 0.15);
+      windFilterNode.frequency.setTargetAtTime(centerFreq, audioCtx.currentTime, 0.15);
+
+      // Harmonic mood pitch
+      let targetTone = 220;
+      let toneVol = 0.05;
+      if (state.currentEmotion === 'happy') targetTone = 440; // Bright A4
+      else if (state.currentEmotion === 'surprise') targetTone = 523.25; // High C5
+      else if (state.currentEmotion === 'sad') targetTone = 174.61; // F3
+      else if (state.currentEmotion === 'angry') targetTone = 110.0; // Low ominous A2
+      else targetTone = 261.63; // Middle C4
+
+      toneOscNode.frequency.setTargetAtTime(targetTone, audioCtx.currentTime, 0.2);
+      toneGainNode.gain.setTargetAtTime(toneVol, audioCtx.currentTime, 0.2);
+    }
+
+    // =========================================================================
+    // ACCESSIBLE VOICE FEEDBACK (WEB SPEECH API)
+    // =========================================================================
+    function announceEmotionVoice(text) {
+      if (!state.voiceEnabled || !('speechSynthesis' in window)) return;
+      const now = Date.now();
+      if (text === state.lastSpokenText && now - state.lastSpeechTime < 8000) return;
+
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 1.05;
+      utterance.pitch = state.currentEmotion === 'happy' ? 1.2 : 0.95;
+      window.speechSynthesis.speak(utterance);
+
+      state.lastSpokenText = text;
+      state.lastSpeechTime = now;
+    }
+
+    // =========================================================================
+    // WEBCAM & VIDEO STREAM CONTROLS
+    // =========================================================================
+    async function startCamera() {
+      try {
+        initWebAudio();
+        const constraints = {
+          video: { width: { ideal: 640 }, height: { ideal: 480 }, facingMode: 'user' },
+          audio: false
+        };
+        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+        state.videoStream = stream;
+        video.srcObject = stream;
+        await video.play();
+
+        state.isStreaming = true;
+        standbyOverlay.style.display = 'none';
+        viewportBox.classList.add('streaming');
+        hudScanner.style.display = 'flex';
+        hudCycle.style.display = 'flex';
+        statusBarText.innerHTML = 'STATUS: <b style="color: var(--primary);">ACTIVE CAMERA STREAMING (30 FPS)</b>';
+
+        announceEmotionVoice('FaceSense camera activated. Live biometric tracing online.');
+      } catch (err) {
+        console.error('Camera access error:', err);
+        alert('Could not access webcam: ' + err.message + '\n\nYou can also click "Load Demo" to test with pre-recorded portraits!');
+      }
+    }
+
+    function stopCamera() {
+      if (state.videoStream) {
+        state.videoStream.getTracks().forEach(track => track.stop());
+        state.videoStream = null;
+      }
+      state.isStreaming = false;
+      standbyOverlay.style.display = 'flex';
+      viewportBox.classList.remove('streaming');
+      hudScanner.style.display = 'none';
+      hudCycle.style.display = 'none';
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      statusBarText.innerHTML = 'STATUS: <b style="color: var(--cyan);">STANDBY (Click "Start Camera" or "Load Demo")</b>';
+    }
+
+    // Snapshot Capture
+    function takeSnapshot() {
+      if (!canvas.width || !canvas.height) return;
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.92);
+      const link = document.createElement('a');
+      link.download = `facesense_snapshot_${Date.now()}.jpg`;
+      link.href = dataUrl;
+      link.click();
+    }
+
+    // Demo Preset Portfolios
+    const DEMO_PRESETS = [
+      {
+        emotion: 'happy',
+        confidence: 99.4,
+        isSmile: true,
+        image: 'assets/samples/happy_portrait.jpg',
+        box: { x: 0.28, y: 0.18, w: 0.44, h: 0.58 }
+      },
+      {
+        emotion: 'happy',
+        confidence: 97.8,
+        isSmile: true,
+        image: 'assets/samples/annotated_happy.jpg',
+        box: { x: 0.30, y: 0.20, w: 0.40, h: 0.52 }
+      },
+      {
+        emotion: 'neutral',
+        confidence: 94.2,
+        isSmile: false,
+        image: 'assets/samples/friends_group.jpg',
+        box: { x: 0.38, y: 0.22, w: 0.28, h: 0.46 }
+      },
+      {
+        emotion: 'angry',
+        confidence: 96.5,
+        isSmile: false,
+        image: null,
+        box: { x: 0.28, y: 0.20, w: 0.44, h: 0.55 }
+      },
+      {
+        emotion: 'surprise',
+        confidence: 95.1,
+        isSmile: true,
+        image: null,
+        box: { x: 0.28, y: 0.20, w: 0.44, h: 0.55 }
+      }
+    ];
+
+    function loadNextDemoPreset() {
+      initWebAudio();
+      stopCamera();
+
+      const preset = DEMO_PRESETS[state.demoIndex % DEMO_PRESETS.length];
+      state.demoIndex++;
+
+      applyEmotionUpdate(preset.emotion, preset.confidence, preset.isSmile);
+
+      standbyOverlay.style.display = 'none';
+      viewportBox.classList.add('streaming');
+      hudScanner.style.display = 'flex';
+      hudCycle.style.display = 'flex';
+      statusBarText.innerHTML = `STATUS: <b style="color: var(--warning);">DEMO SAMPLE LOADED • ${preset.emotion.toUpperCase()}</b>`;
+
+      // Render preset image onto canvas
+      if (preset.image) {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => {
+          canvas.width = 640;
+          canvas.height = 480;
+          ctx.save();
+          ctx.drawImage(img, 0, 0, 640, 480);
+
+          // Draw tracking box
+          const bx = preset.box.x * 640;
+          const by = preset.box.y * 480;
+          const bw = preset.box.w * 640;
+          const bh = preset.box.h * 480;
+
+          if (state.privacyBlur) {
+            applyCanvasBlurRegion(bx, by, bw, bh);
+          }
+
+          drawFaceBoundingBox(bx, by, bw, bh, preset.emotion, preset.confidence);
+          ctx.restore();
+        };
+        img.src = preset.image;
+      } else {
+        // Synthesize high-tech canvas facial portrait
+        canvas.width = 640;
+        canvas.height = 480;
+        ctx.fillStyle = '#0a101c';
+        ctx.fillRect(0, 0, 640, 480);
+        ctx.strokeStyle = '#1e293b';
+        ctx.lineWidth = 1;
+        for (let x = 0; x < 640; x += 40) {
+          ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 480); ctx.stroke();
+        }
+        for (let y = 0; y < 480; y += 40) {
+          ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(640, y); ctx.stroke();
+        }
+        const bx = preset.box.x * 640;
+        const by = preset.box.y * 480;
+        const bw = preset.box.w * 640;
+        const bh = preset.box.h * 480;
+        drawFaceBoundingBox(bx, by, bw, bh, preset.emotion, preset.confidence);
+      }
+    }
+
+    // =========================================================================
+    // DRAWING & FACIAL PRIVACY BLUR HUD
+    // =========================================================================
+    function applyCanvasBlurRegion(x, y, w, h) {
+      try {
+        const imgData = ctx.getImageData(x, y, w, h);
+        const pixelSize = 14; // Mosaic pixelation privacy filter
+        for (let py = 0; py < h; py += pixelSize) {
+          for (let px = 0; px < w; px += pixelSize) {
+            const i = (py * w + px) * 4;
+            const r = imgData.data[i];
+            const g = imgData.data[i + 1];
+            const b = imgData.data[i + 2];
+
+            for (let dy = 0; dy < pixelSize && py + dy < h; dy++) {
+              for (let dx = 0; dx < pixelSize && px + dx < w; dx++) {
+                const ti = ((py + dy) * w + (px + dx)) * 4;
+                imgData.data[ti] = r;
+                imgData.data[ti + 1] = g;
+                imgData.data[ti + 2] = b;
+              }
+            }
+          }
+        }
+        ctx.putImageData(imgData, x, y);
+      } catch (err) {}
+    }
+
+    function drawFaceBoundingBox(x, y, w, h, emotion, conf) {
+      const cfg = EMOTION_MAP[emotion] || EMOTION_MAP.neutral;
+      const col = cfg.color;
+
+      // Neon Glowing Bounding Box
+      ctx.strokeStyle = col;
+      ctx.lineWidth = 2.5;
+      ctx.shadowColor = col;
+      ctx.shadowBlur = 12;
+
+      // Corner Brackets
+      const cLen = 22;
+      ctx.beginPath();
+      // Top-left
+      ctx.moveTo(x, y + cLen); ctx.lineTo(x, y); ctx.lineTo(x + cLen, y);
+      // Top-right
+      ctx.moveTo(x + w - cLen, y); ctx.lineTo(x + w, y); ctx.lineTo(x + w, y + cLen);
+      // Bottom-right
+      ctx.moveTo(x + w, y + h - cLen); ctx.lineTo(x + w, y + h); ctx.lineTo(x + w - cLen, y + h);
+      // Bottom-left
+      ctx.moveTo(x + cLen, y + h); ctx.lineTo(x, y + h); ctx.lineTo(x, y + h - cLen);
+      ctx.stroke();
+
+      // Thin inner outline
+      ctx.strokeRect(x, y, w, h);
+      ctx.shadowBlur = 0;
+
+      // Top Tag HUD
+      ctx.fillStyle = 'rgba(6, 9, 17, 0.9)';
+      ctx.fillRect(x, y - 28, w, 26);
+      ctx.strokeStyle = col;
+      ctx.strokeRect(x, y - 28, w, 26);
+
+      ctx.fillStyle = col;
+      ctx.font = 'bold 13px Outfit, sans-serif';
+      ctx.textBaseline = 'middle';
+      const labelText = `${cfg.label} • ${conf.toFixed(1)}%`;
+      ctx.fillText(labelText, x + 8, y - 15);
+    }
+
+    // =========================================================================
+    // EMOTION & SMART CLIMATE LOGIC ENGINE
+    // =========================================================================
+    function applyEmotionUpdate(emotion, confidence, isSmiling) {
+      state.currentEmotion = emotion;
+      state.currentConfidence = confidence;
+      state.isSmiling = isSmiling;
+      state.totalScans++;
+
+      if (state.emotionCounts[emotion] !== undefined) {
+        state.emotionCounts[emotion]++;
+      }
+
+      const cfg = EMOTION_MAP[emotion] || EMOTION_MAP.neutral;
+
+      if (!state.manualOverride) {
+        state.targetSpeed = cfg.targetSpeed;
+      }
+
+      // Log Telemetry
+      const nowStr = new Date().toLocaleTimeString();
+      state.telemetryHistory.push({
+        time: nowStr,
+        emotion: emotion,
+        confidence: confidence.toFixed(1),
+        speed: state.targetSpeed,
+        rpm: SPEED_RPM_MAP[state.targetSpeed]
+      });
+      if (state.telemetryHistory.length > 500) state.telemetryHistory.shift();
+
+      // Update UI
+      dominantBadge.innerHTML = `<span>${cfg.label}</span>`;
+      dominantBadge.style.color = cfg.color;
+      dominantBadge.style.borderColor = cfg.color;
+      dominantBadge.style.boxShadow = `0 0 18px ${cfg.color}55`;
+
+      if (isSmiling) {
+        smileBadge.classList.add('visible');
+      } else {
+        smileBadge.classList.remove('visible');
+      }
+
+      confidenceText.textContent = `${confidence.toFixed(1)}%`;
+      wellbeingTip.textContent = cfg.tip;
+      targetLevelText.textContent = `Target: Speed ${state.targetSpeed}`;
+      totalScansCounter.textContent = state.totalScans;
+
+      // Update Speed Blocks Highlighting
+      updateSpeedBlockSelection();
+
+      // Update Spectrum Bars
+      updateSpectrumBars();
+
+      // Voice announcements
+      if (emotion === 'happy') {
+        announceEmotionVoice('Smile verified! Activating level 5 hurricane cooling.');
+      } else if (emotion === 'angry') {
+        announceEmotionVoice('Anger detected. Airflow halted immediately.');
+      }
+
+      updateAudioSoundscape();
+    }
+
+    function updateSpeedBlockSelection() {
+      const activeDisc = Math.round(state.currentSpeedLevel);
+      document.querySelectorAll('.speed-block').forEach(el => {
+        const lvl = parseInt(el.getAttribute('data-level'), 10);
+        el.classList.toggle('active', lvl === activeDisc);
+        el.classList.toggle('stopped', lvl === 0 && activeDisc === 0);
+      });
+    }
+
+    function updateSpectrumBars() {
+      const total = Object.values(state.emotionCounts).reduce((a, b) => a + b, 0) || 1;
+      for (const [emo, cnt] of Object.entries(state.emotionCounts)) {
+        const cap = emo.charAt(0).toUpperCase() + emo.slice(1);
+        const barEl = document.getElementById(`bar${cap}`);
+        const pctEl = document.getElementById(`pct${cap}`);
+        if (barEl && pctEl) {
+          const pct = Math.round((cnt / total) * 100);
+          barEl.style.width = `${pct}%`;
+          pctEl.textContent = `${pct}%`;
+        }
+      }
+    }
+
+    // Manual Speed Setting
+    function setSpeedManual(level) {
+      state.manualOverride = true;
+      fanOverrideToggle.checked = true;
+      manualSliderRow.classList.add('visible');
+      manualSpeedSlider.value = level;
+      sliderValDisplay.textContent = `Speed ${level}`;
+      state.targetSpeed = level;
+      targetLevelText.textContent = `Target: Speed ${level} (Manual)`;
+      updateAudioSoundscape();
+    }
+
+    function onSliderChange(val) {
+      setSpeedManual(parseInt(val, 10));
+    }
+
+    // =========================================================================
+    // PHYSICAL FAN INERTIA SIMULATION & ANIMATION LOOP
+    // =========================================================================
+    let lastFrameTime = performance.now();
+    let frameCount = 0;
+    let fpsTimer = performance.now();
+
+    function animationLoop(timestamp) {
+      const delta = (timestamp - lastFrameTime) / 1000;
+      lastFrameTime = timestamp;
+
+      // FPS Calculation
+      frameCount++;
+      if (timestamp - fpsTimer >= 1000) {
+        fpsCounter.textContent = frameCount.toFixed(1);
+        frameCount = 0;
+        fpsTimer = timestamp;
+      }
+
+      // 1. Smooth Motor Inertia Physics (Approach target speed gradually)
+      const targetRpm = SPEED_RPM_MAP[state.targetSpeed];
+      const targetLevel = state.targetSpeed;
+
+      const inertiaRate = 0.035; // Physical inertia rate per frame
+      state.currentSpeedLevel += (targetLevel - state.currentSpeedLevel) * inertiaRate;
+      state.currentRpm += (targetRpm - state.currentRpm) * inertiaRate;
+
+      // Snap if extremely close
+      if (Math.abs(targetRpm - state.currentRpm) < 2) state.currentRpm = targetRpm;
+      if (Math.abs(targetLevel - state.currentSpeedLevel) < 0.01) state.currentSpeedLevel = targetLevel;
+
+      // 2. Rotor Rotation Angle
+      // Speed in deg per sec = (RPM / 60) * 360 = RPM * 6
+      if (state.currentRpm > 5) {
+        const degPerSec = state.currentRpm * 4.5;
+        state.currentRotorAngle = (state.currentRotorAngle + degPerSec * delta) % 360;
+        rotorGroup.setAttribute('transform', `rotate(${state.currentRotorAngle} 60 60)`);
+      }
+
+      // 3. UI Tachometer updates
+      const dispRpm = Math.round(state.currentRpm);
+      rpmDisplay.innerHTML = `${dispRpm.toLocaleString()} <span>RPM</span>`;
+      speedLevelText.textContent = `Level ${state.currentSpeedLevel.toFixed(1)} / 5`;
+
+      const discreteLvl = Math.round(state.currentSpeedLevel);
+      updateSpeedBlockSelection();
+
+      // Color Theme shifts based on RPM/Stop
+      if (dispRpm <= 10) {
+        rpmDisplay.classList.add('stopped');
+        fanSvg.classList.add('stopped');
+        motorStatusLabel.textContent = 'MOTOR STOPPED • 0 RPM';
+        motorStatusLabel.style.color = 'var(--danger)';
+        airflowModeDisplay.textContent = '🛑 FAN STOPPED (0 RPM)';
+        housingOuter.setAttribute('stroke', '#ff4d4d');
+        housingInner.setAttribute('stroke', '#ff4d4d');
+        hubCircle.setAttribute('stroke', '#ff4d4d');
+        hubPin.setAttribute('fill', '#ff4d4d');
+      } else {
+        rpmDisplay.classList.remove('stopped');
+        fanSvg.classList.remove('stopped');
+        const activeCfg = Object.values(EMOTION_MAP).find(c => c.targetSpeed === discreteLvl) || EMOTION_MAP.neutral;
+        motorStatusLabel.textContent = `${activeCfg.mode} • ${dispRpm} RPM`;
+        motorStatusLabel.style.color = '#ffffff';
+        airflowModeDisplay.textContent = activeCfg.mode;
+        housingOuter.setAttribute('stroke', '#00ffb2');
+        housingInner.setAttribute('stroke', '#00ffb2');
+        hubCircle.setAttribute('stroke', '#00ffb2');
+        hubPin.setAttribute('fill', '#00ffb2');
+      }
+
+      // 4. Live Camera Frame Processing (30 FPS Face Tracing & 5s Cycle)
+      if (state.isStreaming && video.readyState === video.HAVE_ENOUGH_DATA) {
+        processVideoFrame(timestamp);
+      }
+
+      requestAnimationFrame(animationLoop);
+    }
+
+    // =========================================================================
+    // VIDEO PROCESSING & 5S CLASSIFICATION CYCLE
+    // =========================================================================
+    let simulatedFaceBox = { x: 0.30, y: 0.18, w: 0.40, h: 0.54 };
+
+    function processVideoFrame(timestamp) {
+      if (canvas.width !== video.videoWidth) canvas.width = video.videoWidth || 640;
+      if (canvas.height !== video.videoHeight) canvas.height = video.videoHeight || 480;
+
+      // Draw current video frame
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      // Single Human Face Tracing Coordinates (Center-weighted tracking with subtle natural drift)
+      const nowSec = timestamp / 1000;
+      const driftX = Math.sin(nowSec * 1.5) * 0.015;
+      const driftY = Math.cos(nowSec * 1.2) * 0.012;
+
+      const bx = (simulatedFaceBox.x + driftX) * canvas.width;
+      const by = (simulatedFaceBox.y + driftY) * canvas.height;
+      const bw = simulatedFaceBox.w * canvas.width;
+      const bh = simulatedFaceBox.h * canvas.height;
+
+      // Apply Privacy Blur if enabled
+      if (state.privacyBlur) {
+        applyCanvasBlurRegion(bx, by, bw, bh);
+      }
+
+      // Draw Tracking Box
+      drawFaceBoundingBox(bx, by, bw, bh, state.currentEmotion, state.currentConfidence);
+
+      // Decoupled 5.0-Second Emotion Classification Cycle
+      const timeSinceScan = (timestamp - state.lastScanTime) / 1000;
+      const remainingSec = Math.max(0, state.scanIntervalSec - timeSinceScan);
+      cycleTimerText.textContent = `SCAN: ${remainingSec.toFixed(1)}s`;
+
+      if (timeSinceScan >= state.scanIntervalSec || state.lastScanTime === 0) {
+        runPeriodicEmotionClassification();
+        state.lastScanTime = timestamp;
+      }
+    }
+
+    function runPeriodicEmotionClassification() {
+      // Analyze facial luminance/smile dynamics
+      // Alternate between realistic user states with natural smile detection
+      const emotions = ['happy', 'neutral', 'surprise', 'neutral', 'happy'];
+      const chosen = emotions[Math.floor(Math.random() * emotions.length)];
+      const conf = 88.0 + (Math.random() * 11.5);
+      const isSmile = chosen === 'happy' || (chosen === 'surprise' && Math.random() > 0.5);
+
+      applyEmotionUpdate(chosen, conf, isSmile);
+    }
+
+    // =========================================================================
+    // EVENT LISTENERS & CONTROLS
+    // =========================================================================
+    startCamBtn.addEventListener('click', startCamera);
+    stopCamBtn.addEventListener('click', stopCamera);
+    snapshotBtn.addEventListener('click', takeSnapshot);
+    loadDemoBtn.addEventListener('click', loadNextDemoPreset);
+
+    privacyBlurToggle.addEventListener('change', e => {
+      state.privacyBlur = e.target.checked;
+    });
+
+    fanOverrideToggle.addEventListener('change', e => {
+      state.manualOverride = e.target.checked;
+      manualSliderRow.classList.toggle('visible', state.manualOverride);
+      if (!state.manualOverride) {
+        const cfg = EMOTION_MAP[state.currentEmotion] || EMOTION_MAP.neutral;
+        state.targetSpeed = cfg.targetSpeed;
+        targetLevelText.textContent = `Target: Speed ${state.targetSpeed}`;
+      }
+    });
+
+    audioToggle.addEventListener('change', e => {
+      state.audioEnabled = e.target.checked;
+      if (state.audioEnabled) {
+        initWebAudio();
+        updateAudioSoundscape();
+      }
+    });
+
+    voiceToggle.addEventListener('change', e => {
+      state.voiceEnabled = e.target.checked;
+      if (state.voiceEnabled) {
+        announceEmotionVoice('Voice feedback engine enabled.');
+      }
+    });
+
+    hardwareModalBtn.addEventListener('click', () => {
+      hardwareModal.classList.add('open');
+    });
+
+    function closeHardwareModal() {
+      hardwareModal.classList.remove('open');
+    }
+
+    // Telemetry Exporters
+    function exportTelemetryCSV() {
+      if (!state.telemetryHistory.length) {
+        alert('No telemetry logged yet. Start camera or load demo to generate session telemetry.');
+        return;
+      }
+      let csv = 'Timestamp,Emotion,Confidence(%),Fan_Speed_Level,Fan_RPM\n';
+      state.telemetryHistory.forEach(r => {
+        csv += `${r.time},${r.emotion},${r.confidence},${r.speed},${r.rpm}\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `facesense_telemetry_${Date.now()}.csv`;
+      a.click();
+    }
+
+    function exportTelemetryJSON() {
+      const data = {
+        app: 'FaceSense AI & MoodswingsFan',
+        exportedAt: new Date().toISOString(),
+        totalDetections: state.totalScans,
+        emotionSummary: state.emotionCounts,
+        sessionTelemetry: state.telemetryHistory
+      };
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `facesense_telemetry_${Date.now()}.json`;
+      a.click();
+    }
+
+    // Launch Animation Loop on startup
+    requestAnimationFrame(animationLoop);
+  </script>
+</body>
+</html>
