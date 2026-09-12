@@ -68,14 +68,14 @@ pip install -r requirements.txt
 
 #### Run
 ```powershell
-# Option A: Live Vercel Cloud Web Deployment (No install required)
-# Deployable instantly on Vercel with real-time browser webcam & fan simulation
+# Option A: Live Vercel Cloud Web Deployment (Instant access in any browser)
+# https://moodswingsfan.vercel.app
 
 # Option B: Run the Glassmorphic Streamlit Web Dashboard locally
 streamlit run web_app.py
 
 # Option C: Run the Real-Time Desktop OpenCV Engine with Keyboard Shortcuts
-python desktop_app.py
+python app.py
 ```
 
 ---

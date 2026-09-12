@@ -28,13 +28,21 @@ if (-not $exists) {
     Read-Host
 }
 
-Write-Host "`n[2/3] Verifying repository..." -ForegroundColor Yellow
-Write-Host "[+] Target: $repoUrl" -ForegroundColor Green
+Write-Host "`n[2/3] Staging and committing any local changes..." -ForegroundColor Yellow
+git add -A
+$status = git status --porcelain
+if ($status) {
+    git commit -m "Update MoodswingsFan project files"
+    Write-Host "[+] Local changes committed." -ForegroundColor Green
+} else {
+    Write-Host "[i] Working directory clean, ready to push." -ForegroundColor Green
+}
 
 Write-Host "`n[3/3] Pushing main branch to GitHub..." -ForegroundColor Yellow
 Write-Host "(*) If prompted by Git Credential Manager, click 'Sign in with your browser' to authorize." -ForegroundColor Cyan
 
-git push -u origin main --force
+git push -u origin main
+
 
 if ($LASTEXITCODE -eq 0) {
     Write-Host "`n========================================================" -ForegroundColor Green
